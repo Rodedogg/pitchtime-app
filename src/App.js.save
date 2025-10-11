@@ -1,3 +1,4 @@
+npm start
 import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabase';
 
@@ -19,14 +20,16 @@ function App() {
   }
 
   async function fetchPlayers(teamId) {
-    const { data } = await supabase.from('players').select('*').eq('team_id', teamId);
+    const { data } = await 
+supabase.from('players').select('*').eq('team_id', teamId);
     setPlayers(data || []);
   }
 
   async function addTeam(e) {
     e.preventDefault();
     if (!teamName.trim()) return;
-    await supabase.from('teams').insert([{ team_name: teamName, sport: 'soccer' }]);
+    await supabase.from('teams').insert([{ team_name: teamName, sport: 
+'soccer' }]);
     setTeamName('');
     fetchTeams();
   }
@@ -34,7 +37,8 @@ function App() {
   async function addPlayer(e) {
     e.preventDefault();
     if (!playerName.trim()) return;
-    await supabase.from('players').insert([{ name: playerName, tag: playerTag, team_id: selectedTeam.id }]);
+    await supabase.from('players').insert([{ name: playerName, tag: 
+playerTag, team_id: selectedTeam.id }]);
     setPlayerName('');
     fetchPlayers(selectedTeam.id);
   }
@@ -42,32 +46,41 @@ function App() {
   return (
     <div style={{ padding: '40px' }}>
       <h1>PitchTime</h1>
+      
       <form onSubmit={addTeam}>
-        <input value={teamName} onChange={(e) => setTeamName(e.target.value)} placeholder="Team name" />
+        <input value={teamName} onChange={(e) => 
+setTeamName(e.target.value)} placeholder="Team name" />
         <button type="submit">Add Team</button>
       </form>
+
       <div>
         {teams.map(team => (
-          <button key={team.id} onClick={() => { setSelectedTeam(team); fetchPlayers(team.id); }}>
+          <button key={team.id} onClick={() => { setSelectedTeam(team); 
+fetchPlayers(team.id); }}>
             {team.team_name}
           </button>
         ))}
       </div>
+
       {selectedTeam && (
         <>
           <h2>{selectedTeam.team_name} Roster</h2>
           <form onSubmit={addPlayer}>
-            <input value={playerName} onChange={(e) => setPlayerName(e.target.value)} placeholder="Player name" />
-            <select value={playerTag} onChange={(e) => setPlayerTag(e.target.value)}>
+            <input value={playerName} onChange={(e) => 
+setPlayerName(e.target.value)} placeholder="Player name" />
+            <select value={playerTag} onChange={(e) => 
+setPlayerTag(e.target.value)}>
               <option>Attacking</option>
               <option>Defensive</option>
               <option>Neutral</option>
             </select>
             <button type="submit">Add Player</button>
           </form>
+
           <div>
             {players.map(player => (
-              <div key={player.id}>
+              <div key={player.id} style={{ padding: '10px', margin: 
+'5px', background: '#f0f0f0' }}>
                 <strong>{player.name}</strong> - {player.tag}
               </div>
             ))}
